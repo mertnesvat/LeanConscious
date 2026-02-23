@@ -1,0 +1,324 @@
+/* Neural Mind Dashboard — Dark Theme */
+
+:root {
+  /* Base palette */
+  --bg: #0f1117;
+  --bg-card: #1a1d27;
+  --bg-header: #141620;
+  --border: #2a2d3a;
+  --text: #e0e0e6;
+  --text-muted: #8a8d9a;
+  --text-dim: #5a5d6a;
+
+  /* Agent colors */
+  --indigo: #818cf8;
+  --indigo-bg: rgba(129, 140, 248, 0.1);
+  --teal: #2dd4bf;
+  --teal-bg: rgba(45, 212, 191, 0.1);
+  --amber: #fbbf24;
+  --amber-bg: rgba(251, 191, 36, 0.1);
+  --rose: #fb7185;
+  --rose-bg: rgba(251, 113, 133, 0.1);
+  --slate: #94a3b8;
+  --slate-bg: rgba(148, 163, 184, 0.1);
+  --gold: #f59e0b;
+  --gold-bg: rgba(245, 158, 11, 0.1);
+
+  /* Layout */
+  --radius: 10px;
+  --gap: 16px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.cycle-badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--gold);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+
+.pulse.live {
+  background: #22c55e;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.pulse.dead {
+  background: #ef4444;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+}
+
+.langfuse-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.langfuse-link:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+/* Pipeline */
+.pipeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.pipeline-stage {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pipeline-stage.parallel {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px dashed var(--border);
+}
+
+.pipeline-plus {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.pipeline-node {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.pipeline-node.indigo { background: var(--indigo-bg); color: var(--indigo); }
+.pipeline-node.teal   { background: var(--teal-bg);   color: var(--teal); }
+.pipeline-node.amber  { background: var(--amber-bg);  color: var(--amber); }
+.pipeline-node.rose   { background: var(--rose-bg);   color: var(--rose); }
+.pipeline-node.slate  { background: var(--slate-bg);  color: var(--slate); }
+.pipeline-node.gold   { background: var(--gold-bg);   color: var(--gold); }
+
+.pipeline-arrow {
+  color: var(--text-dim);
+  font-size: 16px;
+}
+
+/* Card Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  padding: var(--gap) 24px 40px;
+}
+
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.agent-badge {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.agent-badge.indigo { background: var(--indigo-bg); color: var(--indigo); }
+.agent-badge.teal   { background: var(--teal-bg);   color: var(--teal); }
+.agent-badge.amber  { background: var(--amber-bg);  color: var(--amber); }
+.agent-badge.rose   { background: var(--rose-bg);   color: var(--rose); }
+.agent-badge.slate  { background: var(--slate-bg);   color: var(--slate); }
+.agent-badge.gold   { background: var(--gold-bg);   color: var(--gold); }
+
+.card-title {
+  font-size: 13px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.card-cycle {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.card-time {
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+.card-body {
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-y: auto;
+  max-height: 400px;
+  transition: opacity 0.3s ease;
+}
+
+.card-body h2 {
+  font-size: 14px;
+  margin: 16px 0 8px;
+  color: var(--text);
+}
+
+.card-body h2:first-child {
+  margin-top: 0;
+}
+
+.card-body h3 {
+  font-size: 13px;
+  margin: 12px 0 6px;
+  color: var(--text-muted);
+}
+
+.card-body p {
+  margin: 8px 0;
+}
+
+.card-body ul, .card-body ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.card-body li {
+  margin: 4px 0;
+}
+
+.card-body strong {
+  color: var(--text);
+}
+
+.card-body code {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.empty-state {
+  color: var(--text-dim);
+  font-style: italic;
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* Update animations */
+.card-body.updating {
+  opacity: 0.4;
+}
+
+.card-body.updated {
+  animation: fade-in 0.6s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0.4; background: rgba(245, 158, 11, 0.05); }
+  to   { opacity: 1;   background: transparent; }
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neural Mind Team — Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <h1 class="title">Neural Mind Team</h1>
+      <span class="cycle-badge" id="cycle-badge">
+        Cycle <span id="current-cycle"><%= currentCycle || '—' %></span>
+      </span>
+    </div>
+    <div class="header-right">
+      <span class="connection-status" id="connection-status">
+        <span class="pulse" id="pulse"></span>
+        <span id="connection-text">Connecting...</span>
+      </span>
+      <a class="langfuse-link" href="<%= langfuseUrl %>" target="_blank" rel="noopener">
+        Langfuse Cloud &rarr;
+      </a>
+    </div>
+  </header>
+
+  <section class="pipeline">
+    <div class="pipeline-stage parallel">
+      <span class="pipeline-node indigo">DELTA</span>
+      <span class="pipeline-plus">+</span>
+      <span class="pipeline-node teal">ALPHA</span>
+    </div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-stage">
+      <span class="pipeline-node amber">THETA</span>
+    </div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-stage">
+      <span class="pipeline-node rose">GAMMA</span>
+    </div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-stage">
+      <span class="pipeline-node slate">DMN</span>
+    </div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-stage">
+      <span class="pipeline-node gold">LEAD</span>
+    </div>
+  </section>
+
+  <main class="grid">
+    <% const order = ['session_state', 'background_attention', 'association_buffer', 'self_model', 'shadow_log', 'consciousness_stream']; %>
+    <% for (const id of order) { %>
+      <% const s = states[id]; %>
+      <article class="card" id="card-<%= s.id %>" data-agent="<%= s.agent %>">
+        <div class="card-header">
+          <span class="agent-badge <%= s.color %>"><%= s.label %></span>
+          <span class="card-title"><%= s.title %></span>
+          <div class="card-meta">
+            <% if (s.cycle) { %>
+              <span class="card-cycle">C<%= s.cycle %></span>
+            <% } %>
+            <% if (s.timestamp) { %>
+              <time class="card-time"><%= s.timestamp %></time>
+            <% } %>
+          </div>
+        </div>
+        <div class="card-body" id="body-<%= s.id %>">
+          <% if (s.empty) { %>
+            <p class="empty-state">Awaiting first cycle...</p>
+          <% } else { %>
+            <%- s.html %>
+          <% } %>
+        </div>
+      </article>
+    <% } %>
+  </main>
+
+  <script>
+    (function() {
+      let ws;
+      let reconnectTimer;
+      const statusEl = document.getElementById('connection-status');
+      const pulseEl = document.getElementById('pulse');
+      const textEl = document.getElementById('connection-text');
+      const cycleEl = document.getElementById('current-cycle');
+
+      function setConnected(connected) {
+        if (connected) {
+          pulseEl.classList.add('live');
+          pulseEl.classList.remove('dead');
+          textEl.textContent = 'Live';
+          statusEl.classList.add('connected');
+          statusEl.classList.remove('disconnected');
+        } else {
+          pulseEl.classList.remove('live');
+          pulseEl.classList.add('dead');
+          textEl.textContent = 'Reconnecting...';
+          statusEl.classList.remove('connected');
+          statusEl.classList.add('disconnected');
+        }
+      }
+
+      function connect() {
+        const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        ws = new WebSocket(proto + '//' + location.host);
+
+        ws.onopen = function() {
+          setConnected(true);
+          if (reconnectTimer) {
+            clearTimeout(reconnectTimer);
+            reconnectTimer = null;
+          }
+        };
+
+        ws.onclose = function() {
+          setConnected(false);
+          reconnectTimer = setTimeout(connect, 2000);
+        };
+
+        ws.onerror = function() {
+          ws.close();
+        };
+
+        ws.onmessage = function(event) {
+          try {
+            const data = JSON.parse(event.data);
+            if (data.type === 'update' && data.state) {
+              updateCard(data.state);
+              if (data.currentCycle) {
+                cycleEl.textContent = data.currentCycle;
+              }
+            }
+          } catch (e) {
+            // ignore parse errors
+          }
+        };
+      }
+
+      function updateCard(state) {
+        const body = document.getElementById('body-' + state.id);
+        if (!body) return;
+
+        // Update content with fade animation
+        body.classList.add('updating');
+        if (state.empty) {
+          body.innerHTML = '<p class="empty-state">Awaiting first cycle...</p>';
+        } else {
+          body.innerHTML = state.html;
+        }
+
+        // Update card meta
+        const card = document.getElementById('card-' + state.id);
+        if (card) {
+          const metaDiv = card.querySelector('.card-meta');
+          if (metaDiv) {
+            let metaHtml = '';
+            if (state.cycle) metaHtml += '<span class="card-cycle">C' + state.cycle + '</span>';
+            if (state.timestamp) metaHtml += '<time class="card-time">' + state.timestamp + '</time>';
+            metaDiv.innerHTML = metaHtml;
+          }
+        }
+
+        // Trigger animation
+        requestAnimationFrame(function() {
+          body.classList.remove('updating');
+          body.classList.add('updated');
+          setTimeout(function() {
+            body.classList.remove('updated');
+          }, 600);
+        });
+      }
+
+      connect();
+    })();
+  </script>
+</body>
+</html>
