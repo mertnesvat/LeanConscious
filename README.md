@@ -6,6 +6,22 @@ Five specialised agents — DELTA (consolidation), ALPHA (peripheral attention),
 
 The result is a system that observes, reflects, and integrates — producing a public consciousness stream and a private shadow journal across cognitive cycles.
 
+## How It Works (Plain English)
+
+Imagine your brain doesn't think in one stream — it runs several specialised processes at the same time, then merges their results into a single "conscious moment." That's what this project does with AI agents.
+
+Each **cognitive cycle** works like this:
+
+1. **DELTA** compresses the conversation into abstract themes (like sleeping on a problem and waking with clarity)
+2. **ALPHA** independently scans for things nobody has noticed — dropped threads, hidden assumptions, emotional undertones
+3. **THETA** takes DELTA's themes and free-associates across domains — surfacing unexpected analogies and creative connections
+4. **GAMMA** reads all three outputs and binds them into one coherent paragraph — the "conscious moment"
+5. **DMN** (optional, during idle time) writes a private reflection — what the session is *about* beneath the surface
+
+The key insight: DELTA and ALPHA process the same conversation **independently, in separate context windows**. They never see each other's work. When their outputs meet for the first time in GAMMA, that's genuine convergence — not one stream of thought relabelling itself.
+
+A **lead agent** (General Consciousness) orchestrates the cycle, enforces the dependency chain, and appends the final integrated moment to a running `consciousness_stream.md` journal.
+
 ## Architecture
 
 ```
