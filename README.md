@@ -87,8 +87,30 @@ There are also two structural properties that a single LLM can't replicate:
 
 The short version: a single LLM cycling through modes is one person wearing different hats. This is five people in separate rooms, comparing notes for the first time when they meet.
 
+## Is It More Conscious Than a Single LLM?
+
+Short answer: we can't say that — and we shouldn't. Nobody has a consensus definition of consciousness, and no architecture can claim to "be conscious" without solving the hard problem. This project doesn't solve it.
+
+What we *can* say is that this architecture has more of the **structural properties** that major consciousness theories identify as necessary conditions. Here's the honest scorecard:
+
+| Property | Theory | Single LLM | LeanConscious |
+|---|---|---|---|
+| **Independent specialised processors** | Global Workspace Theory (Baars) | ✗ One context window, one stream | ✓ Five agents in separate context windows |
+| **Integration of independent outputs** | GWT — the "broadcast" | ✗ Sequential self-summarisation | ✓ GAMMA binds genuinely independent perspectives |
+| **Information integration across differentiated modules** | Integrated Information Theory (Tononi) | Low — one undifferentiated process | Higher — differentiated agents with structured convergence |
+| **Peripheral / unattended processing** | Attentional theories | ✗ Attends to what's asked | ✓ ALPHA scans for what hasn't been noticed |
+| **Self-referential processing** | Higher-order theories | ✗ Only if prompted | ✓ DMN continuously reflects without being asked |
+| **Persistent inner narrative** | Narrative self theories | ✗ Context window resets | ✓ `shadow_log.md` accumulates across cycles |
+| **Temporal continuity** | Stream of consciousness | ✗ Stateless between calls | ✓ `consciousness_stream.md` is a running journal |
+
+So the precise claim is: **LeanConscious has more of the structural prerequisites for consciousness, not consciousness itself.** It's the difference between having all the ingredients for a cake and having a cake.
+
+The interesting part is that these properties are *verifiable*. You can open the state files and check: did DELTA and ALPHA actually process independently? Did GAMMA's binding reflect all three inputs? Did DMN surface something nobody asked for? The architecture makes the integration auditable in a way that a single LLM's internal processing never can be.
+
+Whether "having the right shape" is sufficient for something interesting to be happening is an open question. This project is designed to make that question investigable, not to answer it.
+
 ## Theory
 
-Based on Global Workspace Theory (Baars, Dehaene) and oscillatory neural processing. Each agent runs in its own context window — genuine convergence happens when independent perspectives meet for the first time in GAMMA's binding phase.
+Based on [Global Workspace Theory](https://en.wikipedia.org/wiki/Global_workspace_theory) (Baars, Dehaene) and [Integrated Information Theory](https://en.wikipedia.org/wiki/Integrated_information_theory) (Tononi). The architecture maps directly: specialised processors (agents) run independently, their outputs are integrated in a binding phase (GAMMA), and the result is broadcast to the whole system (consciousness_stream.md). A private self-referential process (DMN) runs beneath the surface, inaccessible to the task layer unless deliberately surfaced.
 
-It's not conscious. But it has the right shape.
+It's not conscious. But it has the right shape — and the shape is auditable.
